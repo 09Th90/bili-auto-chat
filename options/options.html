@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>B站自动聊天 · 设置</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main>
+    <h1>B站自动聊天 · 设置</h1>
+
+    <section class="card">
+      <h2>① AI 接口（OpenAI 兼容）</h2>
+      <div class="grid">
+        <label>API 地址（Base URL）
+          <input id="ai-baseUrl" placeholder="https://api.deepseek.com/v1" />
+        </label>
+        <label>API Key
+          <input id="ai-apiKey" type="password" placeholder="sk-..." />
+        </label>
+        <label>模型名
+          <input id="ai-model" placeholder="deepseek-chat" />
+        </label>
+        <label>温度（0~2）
+          <input id="ai-temperature" type="number" step="0.1" min="0" max="2" />
+        </label>
+        <label>最大输出 token
+          <input id="ai-maxTokens" type="number" min="50" max="200000" />
+        </label>
+      </div>
+      <label class="block">人设 / System Prompt
+        <textarea id="ai-systemPrompt" rows="5"></textarea>
+      </label>
+      <div class="btn-row">
+        <button id="btn-test-ai">测试 AI 连接</button>
+        <button id="btn-import-persona">导入达妮娅人设</button>
+        <span id="ai-test-result" class="hint"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>② 监听来源</h2>
+      <div class="checks">
+        <label><input type="checkbox" id="src-myVideos" /> 我的视频评论区（含楼中楼）</label>
+        <label><input type="checkbox" id="src-myDynamics" /> 我的动态评论区</label>
+        <label><input type="checkbox" id="src-msgfeedReply" /> 消息中心 · 回复我的</label>
+        <label><input type="checkbox" id="src-msgfeedAt" /> 消息中心 · @我的</label>
+        <label><input type="checkbox" id="src-dm" /> 私信</label>
+      </div>
+      <label class="block">额外指定视频（每行一个 BV 号 / av 号 / 视频链接）
+        <textarea id="watch-videos" rows="3" placeholder="BV1xx411c7mD&#10;https://www.bilibili.com/video/BV1GJ411x7h7"></textarea>
+      </label>
+      <label class="block">额外指定动态（每行一个动态 ID / 动态链接）
+        <textarea id="watch-dynamics" rows="2" placeholder="https://t.bilibili.com/123456789012345678"></textarea>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>③ 频率与限制（防风控）</h2>
+      <div class="grid">
+        <label>轮询间隔（秒，默认 1800 = 30 分钟）
+          <input id="lim-pollIntervalSec" type="number" min="300" max="7200" step="60" />
+        </label>
+        <label>两次发送最小间隔（秒）
+          <input id="lim-sendIntervalSec" type="number" min="10" max="3600" />
+        </label>
+        <label>只回复最近多少分钟的消息（0=不限）
+          <input id="lim-maxReplyAgeMin" type="number" min="0" max="1440" />
+        </label>
+        <label>每小时最多发送
+          <input id="lim-maxSendPerHour" type="number" min="1" max="100" />
+        </label>
+        <label>每天最多发送
+          <input id="lim-maxSendPerDay" type="number" min="1" max="500" />
+        </label>
+        <label>每轮最多扫描视频数
+          <input id="lim-maxVideosPerScan" type="number" min="1" max="20" />
+        </label>
+        <label>上下文历史轮数
+          <input id="lim-maxHistoryTurns" type="number" min="1" max="20" />
+        </label>
+        <label>回复最大长度（字）
+          <input id="lim-maxReplyLength" type="number" min="50" max="1000" />
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>④ 第三方 Agent 接口</h2>
+      <p class="hint">先运行 <code>tools/start-bridge.cmd</code>（或 <code>node server/bridge.mjs</code>），把生成的 token 填到下面。WorkBuddy / Kimi Code / Claude Code 等可直接调 HTTP。</p>
+      <label class="check"><input type="checkbox" id="api-enabled" /> 启用本地桥接接口（ws://127.0.0.1:8765）</label>
+      <div class="grid">
+        <label>桥接地址
+          <input id="api-url" placeholder="ws://127.0.0.1:8765/ws" />
+        </label>
+        <label>Token
+          <input id="api-token" type="password" placeholder="server/token.txt 里的 token" />
+        </label>
+      </div>
+      <div class="btn-row">
+        <button id="btn-gen-token">生成随机 token</button>
+        <button id="btn-test-api">测试接口连接</button>
+        <span id="api-test-result" class="hint"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>⑤ 过滤规则</h2>
+      <label class="block">跳过关键词（逗号分隔，命中不回复）
+        <input id="filter-skipKeywords" placeholder="广告, 加微信, 代练" />
+      </label>
+      <label class="block">黑名单用户 UID（逗号分隔）
+        <input id="filter-blacklistUsers" placeholder="123456, 789012" />
+      </label>
+      <label class="check"><input type="checkbox" id="filter-onlyQuestion" /> 只回复带问号的提问</label>
+    </section>
+
+    <div class="save-bar">
+      <button id="btn-save" class="primary">保存设置</button>
+      <span id="save-result" class="hint"></span>
+    </div>
+  </main>
+  <script src="persona-presets.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

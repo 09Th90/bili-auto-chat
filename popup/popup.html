@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>B站自动聊天</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <h1>B站自动聊天</h1>
+    <div class="header-controls">
+      <span id="sw-badge" class="badge" title="后台 Service Worker 启动时刻">…</span>
+      <span id="login-badge" class="badge">…</span>
+      <span id="api-badge" class="badge hidden"></span>
+      <label class="switch" title="总开关">
+        <input type="checkbox" id="enabled-toggle" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="row">
+      <span class="label">发送模式</span>
+      <div class="seg" id="mode-seg">
+        <button data-mode="confirm" class="seg-btn">先确认再发</button>
+        <button data-mode="auto" class="seg-btn">全自动</button>
+      </div>
+    </div>
+    <div class="row stats">
+      <span>今日 <b id="stat-day">0</b> 条</span>
+      <span>本小时 <b id="stat-hour">0</b> 条</span>
+      <span id="circuit-badge" class="badge hidden"></span>
+      <button id="reset-circuit" class="link hidden">重置熔断</button>
+    </div>
+  </section>
+
+  <section class="card actions">
+    <button id="btn-scan" class="primary">立即扫描</button>
+    <button id="btn-smoke">冒烟测试</button>
+    <button id="btn-probe">读取参数</button>
+    <button id="btn-reload" class="reload" title="重启后台并重载全部代码，无需移除插件">🔄 重载后台</button>
+    <button id="btn-test-ai">测试 AI</button>
+    <button id="btn-test-bili">测试登录</button>
+    <button id="btn-options">设置</button>
+  </section>
+
+  <section class="card hidden" id="probe-card">
+    <h2>接口真实参数（复制发我）</h2>
+    <textarea id="probe-result" class="probe-box" readonly></textarea>
+  </section>
+
+  <section class="card hidden" id="smoke-card">
+    <h2>冒烟测试结果</h2>
+    <div id="smoke-result" class="smoke-list"></div>
+  </section>
+
+  <section class="card">
+    <h2>草稿 / 失败队列 <span id="draft-count" class="count">0</span></h2>
+    <div id="draft-list" class="draft-list">
+      <p class="empty">暂无</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>未回复 / 待处理 <span id="inbox-count" class="count">0</span></h2>
+    <div class="inbox-bar">
+      <span id="inbox-skipped-note" class="hint"></span>
+      <button id="btn-toggle-skipped" class="link hidden">查看已忽略</button>
+    </div>
+    <div id="inbox-list" class="draft-list">
+      <p class="empty">暂无</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>最近动态</h2>
+    <div id="log-list" class="log-list">
+      <p class="empty">暂无</p>
+    </div>
+  </section>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

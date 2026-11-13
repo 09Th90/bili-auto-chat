@@ -1,0 +1,3 @@
+在此填入桥接 token（与扩展设置页「第三方 Agent 接口」一致）。
+也可以直接运行 `node server/bridge.mjs` 或 `tools/start-bridge.cmd`，首次启动会自动生成 server/token.txt。
+本文件仅为占位示例，请勿把真实 token 提交到仓库。

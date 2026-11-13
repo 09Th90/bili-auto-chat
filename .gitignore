@@ -1,0 +1,16 @@
+# 敏感凭据与运行日志（切勿上传）
+server/token.txt
+server/bridge.log
+*.log
+test/.cookies*
+.env
+
+# 部署截图 / IDE 生成物
+test/*.png
+_metadata/
+
+# 依赖与临时文件
+node_modules/
+*.tmp
+*.bak
+Thumbs.db
